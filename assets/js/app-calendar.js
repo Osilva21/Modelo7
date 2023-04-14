@@ -236,7 +236,7 @@ isRtl && (direction = "rtl"), document.addEventListener("DOMContentLoaded", (fun
         })), n.addEventListener("hidden.bs.offcanvas", (function () {
             F()
         })), r.addEventListener("click", (e => {
-            i && (i.innerHTML = "Add Event"), d.innerHTML = "Add", d.classList.remove("btn-update-event"), d.classList.add("btn-add-event"), o.classList.add("d-none"), t.classList.remove("show"), a.classList.remove("show")
+            i && (i.innerHTML = "Add Event"), d.innerHTML = "Add"
         })), y && y.addEventListener("click", (e => {
             e.currentTarget.checked ? document.querySelectorAll(".input-filter").forEach((e => e.checked = 1)) : document.querySelectorAll(".input-filter").forEach((e => e.checked = 0)), T.refetchEvents()
         })), S && S.forEach((e => {
@@ -244,7 +244,42 @@ isRtl && (direction = "rtl"), document.addEventListener("DOMContentLoaded", (fun
                 document.querySelectorAll(".input-filter:checked").length < document.querySelectorAll(".input-filter").length ? y.checked = !1 : y.checked = !0, T.refetchEvents()
             }))
         })), k.config.onChange.push((function (e) {
-            T.changeView(T.view.type, moment(e[0]).format("YYYY-MM-DD")), M(), t.classList.remove("show"), a.classList.remove("show")
+            T.changeView(T.view.type, moment(e[0]).format("YYYY-MM-DD")), M(), t.classList.add("show"), a.classList.add("show")
         }))
     }()
+    // Adiciona um listener para o botão de adicionar evento
+document.querySelector(".btn-add-event").addEventListener("click", function() {
+    addEvent();
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth'
+        });
+      
+        var form = document.getElementById('event-form');
+        form.addEventListener('submit', function(event) {
+          event.preventDefault();
+      
+          var formData = new FormData(form);
+          var title = formData.get('title');
+          var date = formData.get('date');
+          var time = formData.get('time');
+          var description = formData.get('description');
+      
+          calendar.addEvent({
+            title: title,
+            start: date + 'T' + time,
+            description: description
+          });
+      
+          form.reset();
+        });
+      
+        calendar.render();
+      });
+      
+  });
+  
 }));
